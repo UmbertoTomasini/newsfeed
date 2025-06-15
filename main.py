@@ -12,6 +12,7 @@ from newsfeed.config import (
     ASSESS_CORRECTNESS_WITH_BIGGER_MODEL,
     ASSESS_EFFICIENCY,
     INTERVAL,
+    NEWS_SOURCES,
     NUMBER_INITIAL_POST_PER_SOURCE,
 )
 from newsfeed.ingestion.ars_technica_source import ArsTechnicaSource
@@ -102,21 +103,24 @@ accepted_item_ids: Set[str] = set()
 # In-memory store for all news items (accepted + filtered) for assessment
 all_items: List[NewsItem] = []
 
-# Set up the ingestion manager with Reddit, Ars Technica, and Mock sources
-reddit_source_sysadmin = RedditSource(subreddit="sysadmin")
-reddit_source_outages = RedditSource(subreddit="outages")
-reddit_source_cybersecurity = RedditSource(subreddit="cybersecurity")
-ars_source = ArsTechnicaSource()
-mock_source = MockSource()
+SOURCE_TYPE_MAP = {
+    "reddit": lambda cfg: RedditSource(subreddit=cfg["subreddit"]),
+    "ars_technica": lambda cfg: ArsTechnicaSource(),
+    "mock": lambda cfg: MockSource(),
+}
+
+sources = []
+for src_cfg in NEWS_SOURCES:
+    src_type = src_cfg["type"]
+    if src_type in SOURCE_TYPE_MAP:
+        sources.append(SOURCE_TYPE_MAP[src_type](src_cfg))
+    else:
+        raise ValueError(f"Unknown source type: {src_type}")
+
 ingestion_manager = IngestionManager(
-    sources=[
-        reddit_source_sysadmin,
-        reddit_source_outages,
-        reddit_source_cybersecurity,
-        ars_source,
-    ],
-    interval=INTERVAL,  # Use config value
-    number_initial_post_per_source=NUMBER_INITIAL_POST_PER_SOURCE,  # Use config value
+    sources=sources,
+    interval=INTERVAL,
+    number_initial_post_per_source=NUMBER_INITIAL_POST_PER_SOURCE,
 )
 
 # After setting up the ingestion_manager, create the background task manager

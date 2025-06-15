@@ -23,3 +23,11 @@ ASSESS_CORRECTNESS_WITH_BIGGER_MODEL = False
 
 # Enable or disable efficiency assessment (latency/throughput measurement)
 ASSESS_EFFICIENCY = True
+
+NEWS_SOURCES = [
+    {"type": "reddit", "subreddit": "sysadmin"},
+    {"type": "reddit", "subreddit": "outages"},
+    {"type": "reddit", "subreddit": "cybersecurity"},
+    {"type": "ars_technica"},
+    # {"type": "mock"},  # Uncomment to enable mock source
+]

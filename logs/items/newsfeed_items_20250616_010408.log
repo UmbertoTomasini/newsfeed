@@ -1,0 +1,22 @@
+2025-06-16 01:04:10,166 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Forest trust relationship | max_score=0.00 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-16 01:04:10,466 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] 1lc6tn4 | reddit/sysadmin | R740xd PERC Adapter causing trouble - need help accessing RAID
+2025-06-16 01:04:10,763 - INFO - [zero_shot_it_relevance_filter] [REFUSED] What’s your non sysadmin jobs at work? | max_score=0.04 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-16 01:04:11,015 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Telecore eSeries intercom system | max_score=0.01 | label=Security Incident (critical and urgent for a IT manager of a company)
+2025-06-16 01:04:11,524 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] 1lc3d1q | reddit/sysadmin | Is zentyal knowledge transferable to winserver?
+2025-06-16 01:04:12,104 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] 1l9w3gd | reddit/outages | 12/06/2025 Cloudflare outage
+2025-06-16 01:04:12,331 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] 1l9vbg6 | reddit/outages | great internet outage of 6/12/25
+2025-06-16 01:04:12,574 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] 1l9tyrj | reddit/outages | Why is everything down
+2025-06-16 01:04:12,833 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Do you think mini dc ups are necessary for wifi networks? | max_score=0.01 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-16 01:04:13,083 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] 1l837nr | reddit/outages | Service outages after storm
+2025-06-16 01:04:13,614 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Ebpf based open source tools | max_score=0.04 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-16 01:04:14,050 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] 1lc8nz1 | reddit/cybersecurity | Choosing an EDR for a European company
+2025-06-16 01:04:14,479 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] 1lc470w | reddit/cybersecurity | Lead Auditor/Implementer or something else for me?
+2025-06-16 01:04:15,159 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Need help establishing a Malware Analysis Lab | max_score=0.06 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-16 01:04:15,458 - INFO - [zero_shot_it_relevance_filter] [REFUSED] What are the most usual positions in Cybersecurity by title? | max_score=0.07 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-16 01:04:15,777 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Delightfully irreverent Underdogs isn’t your parents’ nature docuseries | max_score=0.00 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-16 01:04:16,031 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Companies may soon pay a fee for their rockets to share the skies with airplanes | max_score=0.04 | label=Vulnerability (critical and urgent for a IT manager of a company)
+2025-06-16 01:04:16,285 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Biofuels policy has been a failure for the climate, new report claims | max_score=0.01 | label=Vulnerability (critical and urgent for a IT manager of a company)
+2025-06-16 01:04:16,527 - INFO - [zero_shot_it_relevance_filter] [REFUSED] The “online monkey torture video” arrests just keep coming | max_score=0.01 | label=Security Incident (critical and urgent for a IT manager of a company)
+2025-06-16 01:04:16,781 - INFO - [zero_shot_it_relevance_filter] [REFUSED] These VA Tech scientists are building a better fog harp | max_score=0.00 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-16 01:05:24,076 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] 1lcdnke | reddit/cybersecurity | BeEF Hacking Tool: How to Attack Through the Web Browser (Chrome, Firefox, Safari)
+2025-06-16 01:05:24,122 - INFO - [background_ingest] [ACCEPTED] 1lcdnke | reddit/cybersecurity | BeEF Hacking Tool: How to Attack Through the Web Browser (Chrome, Firefox, Safari)

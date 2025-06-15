@@ -51,13 +51,20 @@ Items are sorted by **relevance × recency**.
 
 ```bash
 # ingest one synthetic item
-curl -X POST http://127.0.0.1:8000/ingest \
-  -H 'Content-Type: application/json' \
-  -d '[{"id":"test-1","source":"synthetic","title":"Test Event",\
-        "body":"Synthetic test event.","published_at":"2024-07-15T10:00:00Z"}]'
+curl -X POST "http://localhost:8000/ingest" \
+  -H "Content-Type: application/json" \
+  -d '[
+    {
+      "id": "outage-aws-us-east-1-20250616",
+      "source": "reddit/sysadmin", 
+      "title": "AWS US-East-1 Experiencing Major Outage - Multiple Services Down",
+      "body": "AWS US-East-1 region is currently experiencing a widespread outage affecting EC2, RDS, and S3 services. The outage started at approximately 14:30 UTC and is impacting thousands of applications. AWS has acknowledged the issue and engineering teams are working on resolution. Customer-facing applications across multiple industries are reporting downtime.",
+      "published_at": "2025-06-16T14:30:00Z"
+    }
+  ]'
 
 # fetch what the filter accepted
-curl http://127.0.0.1:8000/retrieve | jq .
+curl http://127.0.0.1:8000/retrieve | python3 -m json.tool
 ```
 
 | Verb   | Path            | Purpose                                                  |
