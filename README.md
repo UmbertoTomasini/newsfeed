@@ -1,7 +1,7 @@
 # Newsfeed
 
 *A FastAPI‑based news‑aggregation service for corporate IT managers.*
-*It features modular ingestion, relevance filtering, and a ****relevance × recency**** scoring pipeline.*
+*It features modular ingestion, relevance filtering, and a ******relevance × recency****** scoring pipeline.*
 
 ---
 
@@ -37,7 +37,7 @@ uvicorn newsfeed.main:app --reload          # ➜ http://127.0.0.1:8000
 # Ctrl‑C to stop
 ```
 
-Open [**http://127.0.0.1:8000/docs**](http://127.0.0.1:8000/docs) for Swagger UI.
+Open **[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)** for Swagger UI.
 
 ### 2 Terminal UI – read the feed
 
@@ -118,6 +118,20 @@ Rejected items are only persisted when `ASSESS_CORRECTNESS_WITH_BIGGER_MODEL=Tru
 
 ---
 
+## 👓 Evaluation of efficiency & correctness
+
+### Correctness
+
+1. **Offline metrics (custom dataset)** – a dataset was created and labelled with **OpenAI o3**. With `MIN_SCORE = 0.08`, `facebook/bart‑large‑mnli` achieves **100 % precision and recall** on this set (see `tests/test_hard_filtering_relevant.py`).
+2. **Live evaluation (larger LLM)** – when `ASSESS_CORRECTNESS_WITH_BIGGER_MODEL=True`, the TUI calls `/retrieve-all` and re‑scores every item with **`tiiuae/falcon‑7b‑instruct`** (open‑source, ungated). Falcon‑7B still produces many false‑positives.
+
+### Efficiency
+
+* Latency, throughput, CPU and (if present) GPU usage are measured **per pipeline step**.
+* Metrics are appended to timestamped files under `logs/efficiency/` when `ASSESS_EFFICIENCY=True` in `config.py`.
+
+---
+
 ## 🧪 Testing & verification
 
 | Level       | What’s covered                                                            | How to run                      |
@@ -127,20 +141,6 @@ Rejected items are only persisted when `ASSESS_CORRECTNESS_WITH_BIGGER_MODEL=Tru
 | Performance | Latency / throughput logged via `log_utils` when `ASSESS_EFFICIENCY=True` | Inspect `logs/efficiency/*.log` |
 
 The CI workflow (`.github/workflows/ci.yml`) runs **pytest** on Python 3.10 & 3.11 and enforces code health with **Black + isort + Ruff**.
-
----
-
-## 👓 Evaluation of efficiency & correctness&#x20;
-
-### Correctness
-
-1. **Offline metrics** – precision, recall, and a full confusion‑matrix are computed on a custom‑labelled dataset (`tests/test_hard_filtering_relevant.py`).
-2. **Live evaluation** – run `python -m newsfeed.show_news` with `ASSESS_CORRECTNESS_WITH_BIGGER_MODEL=True` to stream items through a larger LLM and compare its classification to the pipeline in real time.
-
-### Efficiency
-
-* Latency, throughput, CPU and (if present) GPU usage are measured **per pipeline step**.
-* Results are appended to timestamped files under `logs/efficiency/` when `ASSESS_EFFICIENCY=True` in `config.py`.
 
 ---
 
