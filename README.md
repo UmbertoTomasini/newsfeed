@@ -1,7 +1,7 @@
 # Newsfeed
 
 *A FastAPI‑based news‑aggregation service for corporate IT managers.*
-*It features modular ingestion, relevance filtering, and a ******relevance × recency****** scoring pipeline.*
+*It features modular ingestion, relevance filtering, and a ****relevance × recency**** scoring pipeline.*
 
 ---
 
@@ -37,7 +37,7 @@ uvicorn newsfeed.main:app --reload          # ➜ http://127.0.0.1:8000
 # Ctrl‑C to stop
 ```
 
-Open **[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)** for Swagger UI.
+Open [**http://127.0.0.1:8000/docs**](http://127.0.0.1:8000/docs) for Swagger UI.
 
 ### 2 Terminal UI – read the feed
 
@@ -72,31 +72,59 @@ curl http://127.0.0.1:8000/retrieve | jq .
 
 ```mermaid
 flowchart TD
-    A["Ingestion Sources<br/>(Reddit, Ars Technica, Mock)"] --> B["Ingestion Manager"]
-    B --> C["Filtering (Zero‑shot, etc.)"]
-    C --> D["Background Task Mgr"]
-    D --> E["FastAPI Endpoints"]
-    E --> F["Client / UI"]
+    src["Aggregation<br/>(Reddit Sysadmin, Reddit Outages, Reddit Cybersec, Ars‑Technica, Mock)"] --> mgr["Ingestion Manager"]
+    mgr --> hf["Hard Filter<br/>BART‑MNLI (zero‑shot)"]
+    hf --> rec["Recency Weighting<br/>exp(-Δt / PERSISTENCE_TIME)"]
+    rec --> mem["In‑memory Store<br/>(≤ MAX_ITEMS)"]
+    subgraph Background
+        timer["Background Task Manager<br/>runs every INTERVAL s"] --> mgr
+    end
+    mem --> api["FastAPI Endpoints"]
+    api --> ui["Terminal UI / REST client"]
 ```
 
-| Layer                       | Key decisions & assumptions                                                                                                           |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| **Ingestion sources**       | Each source lives in its own class so new feeds (RSS, Twitter, etc.) drop in without touching core logic.                             |
-| **Ingestion manager**       | *Single rendez‑vous* that deduplicates on `item.id`, injects metadata, and batches hand‑offs to the filter.                           |
-| **Filtering**               | Zero‑shot model + regex fallback → good precision without source‑specific tuning. Recency decay (`exp(-Δt/τ)`) merged to final score. |
-| **Background task manager** | Runs ingestion every `INTERVAL` s with `asyncio` to avoid blocking API threads. Keeps memory use ≤ `MAX_ITEMS`.                       |
-| **API layer (FastAPI)**     | Thin CRUD wrapper so other services (Slack bot, dashboard) reuse the same business logic.                                             |
-| **In‑memory store**         | Simpler than a DB for take‑home; assumption: ≤ 100 items fits RAM. Swappable for Redis if persistence is required.                    |
+| Stage                       | What happens                                                                                                                                                                                                                                                                                                                                               | Key **config.py** knobs                             |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| **Aggregation**             | Each source fetches `NUMBER_INITIAL_POST_PER_SOURCE` items and normalises them into `NewsItem` objects (`id`, `source`, `title`, `body`, `published_at`, …).                                                                                                                                                                                               | `NUMBER_INITIAL_POST_PER_SOURCE`, `INTERVAL`        |
+| **Ingestion manager**       | Deduplicates on `id`, stamps metadata, pushes batch to filter.                                                                                                                                                                                                                                                                                             | —                                                   |
+| **Hard filter**             | `facebook/bart‑large‑mnli` zero‑shot classifier checks *title + first 2 sentences* against a specialised label set (see below). Item is accepted if **any** label score ≥ `MIN_SCORE`. Rejected items are stored *only* when `ASSESS_CORRECTNESS_WITH_BIGGER_MODEL=True`.                                                                                  | `MIN_SCORE`, label list in `ingestion/filtering.py` |
+| **Recency weighting**       | Compute `recency_weight = exp(-Δt / PERSISTENCE_TIME)` and save `final_score = relevance_score × recency_weight`.                                                                                                                                                                                                                                          | `PERSISTENCE_TIME`                                  |
+| **In-memory store**         | Keep accepted items up to `MAX_ITEMS`; older items drop off.                                                                                                                                                                                                                                                                                               | `MAX_ITEMS`                                         |
+| **Background Task Manager** | Async loop fetches new items every `INTERVAL` seconds, re‑applies the filter & scoring.                                                                                                                                                                                                                                                                    | `INTERVAL`                                          |
+| **API / UI**                | FastAPI exposes `/ingest`, `/retrieve`, `/retrieve-all`; by default the TUI (`python -m newsfeed.show_news`) calls `/retrieve`, which recomputes recency weights. If `ASSESS_CORRECTNESS_WITH_BIGGER_MODEL=True`, the TUI instead calls `/retrieve-all`, receives *all* items (accepted + rejected) and then performs live evaluation with a larger model. | —                                                   |
+
+> **Configuration note** All parameters in **CAPS** above live in [`newsfeed/config.py`](newsfeed/config.py). Edit them there to change thresholds, intervals, or feature‑flags.
+
+### Classifier label set & decision rule
+
+| Bucket           | Labels                                                                                                  |
+| ---------------- | ------------------------------------------------------------------------------------------------------- |
+| **Relevant**     | `Outage`, `Security Incident`, `Vulnerability`, `Major Bug`, *(plus 8 more nuanced operational labels)* |
+| **Not relevant** | `Not a critical/urgent issue for an IT manager of a company`                                            |
+
+* The label list is intentionally **skewed toward relevant classes** to minimise false‑negatives, which matter more than false‑positives in this setting.
+* The classifier runs in **multi‑label** mode (`multi_label=True`). If *any* label’s probability ≥ `MIN_SCORE`, the item is accepted; otherwise rejected.
+* **Recall / latency trade‑off** – more labels boost recall but increase inference latency. The current list was chosen as the sweet‑spot observed in benchmarking.
+* For every processed item we store:
+
+  1. `relevance_score` → the *max* label probability.
+  2. `top_relevant_label` → the label that produced that score.
+
+Rejected items are only persisted when `ASSESS_CORRECTNESS_WITH_BIGGER_MODEL=True` so that a larger model can later reassess them for offline metrics.
+
+---
+
+\*\* All parameters in **CAPS** above live in [`newsfeed/config.py`](newsfeed/config.py). Edit them there to change thresholds, intervals, or feature‑flags.
 
 ---
 
 ## 🧪 Testing & verification
 
-| Level           | What’s covered                                                            | How to run                      |
-| --------------- | ------------------------------------------------------------------------- | ------------------------------- |
-| **Unit**        | Ingestion adapters, `filtering.score()`, recency decay                    | `pytest tests/unit -q`          |
-| **Integration** | End‑to‑end pipeline with mock sources → `/retrieve`                       | `pytest tests/integration -q`   |
-| **Performance** | Latency / throughput logged via `log_utils` when `ASSESS_EFFICIENCY=True` | Inspect `logs/efficiency/*.log` |
+| Level       | What’s covered                                                            | How to run                      |
+| ----------- | ------------------------------------------------------------------------- | ------------------------------- |
+| Unit        | Ingestion adapters, `filtering.score()`, recency decay                    | `pytest tests/unit -q`          |
+| Integration | End‑to‑end pipeline with mock sources → `/retrieve`                       | `pytest tests/integration -q`   |
+| Performance | Latency / throughput logged via `log_utils` when `ASSESS_EFFICIENCY=True` | Inspect `logs/efficiency/*.log` |
 
 The CI workflow (`.github/workflows/ci.yml`) runs **pytest** on Python 3.10 & 3.11 and enforces code health with **Black + isort + Ruff**.
 
@@ -125,7 +153,7 @@ The CI workflow (`.github/workflows/ci.yml`) runs **pytest** on Python 3.10 
 | `INTERVAL`                             | Ingestion interval (s)             | `30`    |
 | `NUMBER_INITIAL_POST_PER_SOURCE`       | Seed items per source              | `5`     |
 | `PERSISTENCE_TIME`                     | Recency decay constant (s)         | `86400` |
-| `ASSESS_CORRECTNESS_WITH_BIGGER_MODEL` | Run offline eval with larger model | `False`  |
+| `ASSESS_CORRECTNESS_WITH_BIGGER_MODEL` | Run offline eval with larger model | False   |
 | `ASSESS_EFFICIENCY`                    | Log latency & throughput           | `True`  |
 
 See [`newsfeed/config.py`](newsfeed/config.py) for full commentary.
