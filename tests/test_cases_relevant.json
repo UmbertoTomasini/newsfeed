@@ -1,0 +1,181 @@
+[ {
+    "id": "rel-001",
+    "source": "status.aws.amazon.com",
+    "title": "EU-West-1 EC2 Outage – Instances Unreachable",
+    "body": "A networking failure is causing packet loss and instance reboot loops in the EU-West-1 region. Engineers are working on mitigation.",
+    "published_at": "2025-06-12T12:05:00Z",
+    "relevant": true,
+    "reason": "Outage (relevant and urgent for a IT manager of a company)"
+  },
+  {
+    "id": "rel-002",
+    "source": "securityweek",
+    "title": "Zero-day Exploit in OpenSSH Enables Root Access",
+    "body": "CVE-2025-21908 allows unauthenticated attackers to gain root via a crafted banner message. Patch released.",
+    "published_at": "2025-06-10T09:40:00Z",
+    "relevant": true,
+    "reason": "Vulnerability (relevant and urgent for a IT manager of a company)"
+  },
+  {
+    "id": "rel-003",
+    "source": "postgresql-announce",
+    "title": "PostgreSQL 16.2 Data Corruption Bug Under Heavy Write Load",
+    "body": "A WAL replay error can corrupt B-tree indexes when autovacuum and bulk-insert overlap.",
+    "published_at": "2025-06-08T15:30:00Z",
+    "relevant": true,
+    "reason": "Database Bug (relevant and urgent for a IT manager of a company)"
+  },
+  {
+    "id": "rel-004",
+    "source": "azure-status",
+    "title": "Azure AD Authentication Latency Spikes",
+    "body": "Users may experience sign-in delays of up to 20 seconds; root cause under investigation.",
+    "published_at": "2025-06-11T07:55:00Z",
+    "relevant": true,
+    "reason": "Performance Degradation (relevant and urgent for a IT manager of a company)"
+  },
+  {
+    "id": "rel-005",
+    "source": "apple-security-updates",
+    "title": "macOS 15.1 Emergency Patch Fixes Kernel Remote Code Execution",
+    "body": "Apple urges all enterprise fleets to update immediately; exploit observed in the wild.",
+    "published_at": "2025-06-09T18:20:00Z",
+    "relevant": true,
+    "reason": "Patch/Update for Security Incident (relevant and urgent for a IT manager of a company)"
+  },
+  {
+    "id": "rel-006",
+    "source": "company-intranet",
+    "title": "Production File-Share Corrupted After Power Failure",
+    "body": "NTFS volume lost journal; restore in progress, ETA 3 h. Some user data may need manual recovery.",
+    "published_at": "2025-06-12T01:12:00Z",
+    "relevant": true,
+    "reason": "Data Loss (relevant and urgent for a IT manager of a company)"
+  },
+  {
+    "id": "rel-007",
+    "source": "kubernetes-dev",
+    "title": "K8s 1.32 Deprecates Dockershim and Removes Beta APIs",
+    "body": "Clusters running deprecated beta workloads must migrate before October 2025.",
+    "published_at": "2025-06-05T13:05:00Z",
+    "relevant": true,
+    "reason": "Deprecation/EOL (relevant and urgent for a IT manager of a company)"
+  },
+  {
+    "id": "rel-008",
+    "source": "cloudflare-status",
+    "title": "Global 502 Errors When Accessing Workers KV",
+    "body": "An internal routing issue is intermittently returning 502 for Workers KV requests.",
+    "published_at": "2025-06-12T10:22:00Z",
+    "relevant": true,
+    "reason": "System/Servers Down (relevant and urgent for a IT manager of a company)"
+  },
+  {
+    "id": "rel-009",
+    "source": "oracle-critical-patch-update",
+    "title": "Oracle Java CPU – 8 Critical CVEs Fixed",
+    "body": "One vulnerability allows sandbox escape and arbitrary OS command execution.",
+    "published_at": "2025-06-10T22:00:00Z",
+    "relevant": true,
+    "reason": "Major Bug & Vulnerability (relevant and urgent for a IT manager of a company)"
+  },
+  {
+    "id": "rel-010",
+    "source": "status.gcp.google.com",
+    "title": "BigQuery Job Failures in us-central1",
+    "body": "Jobs may return internal errors due to storage service issue; engineers deploying rollback.",
+    "published_at": "2025-06-12T03:47:00Z",
+    "relevant": true,
+    "reason": "Malfunction/Issue (relevant and urgent for a IT manager of a company)"
+  },
+  {
+    "id": "nrel-001",
+    "source": "reddit/homelab",
+    "title": "Just hit 10 Gbit on my new fiber—AMA!",
+    "body": "Pics of the new ONT and MikroTik router inside.",
+    "published_at": "2025-06-07T20:20:00Z",
+    "relevant": false,
+    "reason": "Not a relevant/urgent issue for a IT manager of a company"
+  },
+  {
+    "id": "nrel-002",
+    "source": "techcrunch",
+    "title": "Startup raises $12 M to reinvent e-ink whiteboards",
+    "body": null,
+    "published_at": "2025-06-06T09:00:00Z",
+    "relevant": false,
+    "reason": "Not a relevant/urgent issue for a IT manager of a company"
+  },
+  {
+    "id": "nrel-003",
+    "source": "gaming-news",
+    "title": "SpaceQuest IV Remaster Launches Next Week",
+    "body": "4K graphics, remixed soundtrack, and new achievements.",
+    "published_at": "2025-06-04T11:15:00Z",
+    "relevant": false,
+    "reason": "Not a relevant/urgent issue for a IT manager of a company"
+  },
+  {
+    "id": "nrel-004",
+    "source": "personal-blog",
+    "title": "Why my smart fridge keeps singing at 3 AM",
+    "body": "Spoiler: it’s the firmware update noise.",
+    "published_at": "2025-06-02T23:45:00Z",
+    "relevant": false,
+    "reason": "Not a relevant/urgent issue for a IT manager of a company"
+  },
+  {
+    "id": "nrel-005",
+    "source": "youtube-techreview",
+    "title": "Top 5 mechanical keyboards of 2025",
+    "body": null,
+    "published_at": "2025-06-01T16:30:00Z",
+    "relevant": false,
+    "reason": "Not a relevant/urgent issue for a IT manager of a company"
+  },
+  {
+    "id": "nrel-006",
+    "source": "reddit/meme",
+    "title": "When you deploy on Friday and Jenkins says ‘Good luck’ 😅",
+    "body": null,
+    "published_at": "2025-06-12T08:08:00Z",
+    "relevant": false,
+    "reason": "Not a relevant/urgent issue for a IT manager of a company"
+  },
+  {
+    "id": "nrel-007",
+    "source": "medium-opinion",
+    "title": "Why serverless will replace all servers (eventually)",
+    "body": "A thought-piece with no concrete incidents or data.",
+    "published_at": "2025-06-05T12:00:00Z",
+    "relevant": false,
+    "reason": "Not a relevant/urgent issue for a IT manager of a company"
+  },
+  {
+    "id": "nrel-008",
+    "source": "rss/coffeegeek",
+    "title": "Review: The new AeroPress Flow Control Filter Cap",
+    "body": "Great taste, less bitterness—perfect for late-night deployments.",
+    "published_at": "2025-06-03T14:44:00Z",
+    "relevant": false,
+    "reason": "Not a relevant/urgent issue for a IT manager of a company"
+  },
+  {
+    "id": "nrel-009",
+    "source": "eventbrite",
+    "title": "Frontend Dev Meetup – Basel, 25 June",
+    "body": "Talks on CSS Houdini and design systems.",
+    "published_at": "2025-06-10T10:10:00Z",
+    "relevant": false,
+    "reason": "Not a relevant/urgent issue for a IT manager of a company"
+  },
+  {
+    "id": "nrel-010",
+    "source": "twitter/randomuser",
+    "title": "My cat just walked across the keyboard and committed to prod 🐱‍💻",
+    "body": null,
+    "published_at": "2025-06-11T21:21:00Z",
+    "relevant": false,
+    "reason": "Not a relevant/urgent issue for a IT manager of a company"
+  }
+]
