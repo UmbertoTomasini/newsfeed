@@ -9,7 +9,7 @@
 
 ```bash
 git clone https://github.com/UmbertoTomasini/newsfeed.git
-python3 -m venv newsfeed/venv
+python3 -m virtualenv newsfeed/venv
 source newsfeed/venv/bin/activate
 pip install -r newsfeed/requirements.txt
 ```
@@ -214,7 +214,7 @@ See [`newsfeed/config.py`](newsfeed/config.py) for full commentary.
 ### 5 Performance & evaluation
 
 - Track p95 latency and throughput in CI; fail builds when regressions exceed 20 %.
-- Swap Falcon‑7B for a distilled model fine‑tuned on the curated dataset above—expect higher precision at lower GPU cost.
+- Swap Falcon‑7B-Instruct for a distilled model fine‑tuned on the curated dataset above, or a strong commercial model—expect higher precision/recall.
 
 ---
 
