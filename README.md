@@ -125,7 +125,7 @@ The CI workflow (`.github/workflows/ci.yml`) runs **pytest** on Python 3.10 
 | `INTERVAL`                             | Ingestion interval (s)             | `30`    |
 | `NUMBER_INITIAL_POST_PER_SOURCE`       | Seed items per source              | `5`     |
 | `PERSISTENCE_TIME`                     | Recency decay constant (s)         | `86400` |
-| `ASSESS_CORRECTNESS_WITH_BIGGER_MODEL` | Run offline eval with larger model | `True`  |
+| `ASSESS_CORRECTNESS_WITH_BIGGER_MODEL` | Run offline eval with larger model | `False`  |
 | `ASSESS_EFFICIENCY`                    | Log latency & throughput           | `True`  |
 
 See [`newsfeed/config.py`](newsfeed/config.py) for full commentary.
