@@ -131,15 +131,18 @@ Rejected items are only persisted when `ASSESS_CORRECTNESS_WITH_BIGGER_MODEL=Tru
 * Latency, throughput, CPU and (if present) GPU usage are measured **per pipeline step**.
 * Metrics are appended to timestamped files under `logs/efficiency/` when `ASSESS_EFFICIENCY=True` in `config.py`.
 
+---
+
 ## 🧪 Testing & verification
 
 > **Goal** Guarantee that the pipeline is correct, reproducible, and fast enough for real‑time use.
 
-| Test file                               | Kind                       | What it checks                                                                                                                                                                                                                   | Command                                           |
-| --------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
-| `tests/test_aggregation_pipeline.py`    | **Integration**            | • Root endpoint 200 OK.<br>• `/ingest` ACK & items land in memory.<br>• `/retrieve` orders by recency.<br>• Dedup prevents duplicate IDs.<br>• IngestionManager pulls new items from `MockSource` and `/retrieve` reflects them. | `pytest tests/test_aggregation_pipeline.py -q`    |
-| `tests/test_efficiency_logging.py`      | **Smoke / Performance**    | • Basic 200 responses for `/`, `/retrieve`, `/retrieve-all`.<br>• `/ingest` ACK round‑trip.<br>• Ensures endpoints stay alive when efficiency logging is on.                                                                     | `pytest tests/test_efficiency_logging.py -q`      |
-| `tests/test_hard_filtering_relevant.py` | **Unit / Offline metrics** | • Runs `zero_shot_it_relevance_filter` on a 20‑item custom dataset.<br>• Prints confusion matrix, precision, recall; asserts perfect P\&R at `MIN_SCORE=0.08`.                                                                   | `pytest tests/test_hard_filtering_relevant.py -q` |
+| Test file                               | Kind                       | What it checks                                                                                                                                                                                                   | Command                                           |
+| --------------------------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| `tests/test_aggregation_pipeline.py`    | **Integration**            | • Root endpoint 200 OK.• `/ingest` ACK & items land in memory.• `/retrieve` orders by recency.• Dedup prevents duplicate IDs.• IngestionManager pulls new items from `MockSource` and `/retrieve` reflects them. | `pytest tests/test_aggregation_pipeline.py -q`    |
+| `tests/test_efficiency_logging.py`      | **Smoke / Performance**    | • Basic 200 responses for `/`, `/retrieve`, `/retrieve-all`.• `/ingest` ACK round‑trip.• Ensures endpoints stay alive when efficiency logging is on.                                                             | `pytest tests/test_efficiency_logging.py -q`      |
+| `tests/test_hard_filtering_relevant.py` | **Unit / Offline metrics** | • Runs `zero_shot_it_relevance_filter` on a 20‑item custom dataset.• Prints confusion matrix, precision, recall; asserts perfect P&R at `MIN_SCORE=0.08`.                                                        | `pytest tests/test_hard_filtering_relevant.py -q` |
+| `tests/test_latency.py`                 | **Perf regression**        | • Ensures `/ingest`, `/retrieve`, `/retrieve-all` each respond in < 500 ms on CI runner.• Fails build if latency budget is exceeded.                                                                             | `pytest tests/test_latency.py -q`                 |
 
 ### Coverage & lint helpers
 
@@ -157,6 +160,7 @@ A coverage badge can be added once the project is public:
 CI (`.github/workflows/ci.yml`) executes **pytest** (+ coverage) on Python 3.10 & 3.11 and enforces style via **Black · isort · Ruff**.
 
 ---
+
 
 ## 📝 Logging
 
@@ -182,6 +186,35 @@ These logs let you audit relevance decisions and spot performance regressions wi
 | `ASSESS_EFFICIENCY`                    | Log latency & throughput           | `True`  |
 
 See [`newsfeed/config.py`](newsfeed/config.py) for full commentary.
+
+---
+
+## 🌱 Future work & improvements
+
+### 1 Aggregation
+
+- **Per‑source cadence** – allow `INTERVAL` and `NUMBER_INITIAL_POST_PER_SOURCE` to be overridden per source (e.g. high‑volume Reddit vs low‑volume Ars‑Technica).
+- **Persistent store** – write accepted items to SQLite so the feed survives restarts and can be queried historically.
+
+### 2 Filtering pipeline
+
+- **Richer label set** – add sub‑labels for hardware launches, cloud price changes, licence breaches, etc. to boost recall.
+- **Fine‑tune BART** – curate a dataset by (a) auto‑labelling fresh feeds with a strong commercial LLM, then human spot‑checking, or (b) leveraging curated feeds such as Event Registry, NewsCatcher, Contify, Recorded Future, Flashpoint VulnDB.
+- **Curriculum learning** – start with positive/easy‑negative pairs, then mine *hard negatives* (closest negative item in embedding space) to sharpen the decision boundary.
+
+### 3 Composite relevance score
+
+- Plug‑in sentiment, similarity‑to‑past‑incidents, or vendor‑impact scores—each with its own weight—so the final ranking reflects business priority, not just recency × relevance.
+
+### 4 User‑driven feedback loop
+
+- Let on‑call engineers up‑vote / down‑vote items in the TUI; feed those signals to a light‑weight online learner that adjusts label thresholds in real time.
+- Explore a chat workflow where the model explains *why* an item was classified and asks clarifying questions when unsure.
+
+### 5 Performance & evaluation
+
+- Track p95 latency and throughput in CI; fail builds when regressions exceed 20 %.
+- Swap Falcon‑7B for a distilled model fine‑tuned on the curated dataset above—expect higher precision at lower GPU cost.
 
 ---
 
