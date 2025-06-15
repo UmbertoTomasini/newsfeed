@@ -104,8 +104,7 @@ flowchart TD
 
 * The label list is intentionally **skewed toward relevant classes** to minimise false‑negatives, which matter more than false‑positives in this setting.
 * The classifier runs in **multi‑label** mode (`multi_label=True`). If *any* label’s probability ≥ `MIN_SCORE`, the item is accepted; otherwise rejected.
-* **Recall / latency trade‑off** – more labels boost recall but increase inference latency. The current list was chosen as the sweet‑spot observed in benchmarking.
-* For every processed item we store:
+* **Recall / latency trade‑off** – more labels boost recall but increase inference latency. 
 
   1. `relevance_score` → the *max* label probability.
   2. `top_relevant_label` → the label that produced that score.
@@ -132,17 +131,41 @@ Rejected items are only persisted when `ASSESS_CORRECTNESS_WITH_BIGGER_MODEL=Tru
 * Latency, throughput, CPU and (if present) GPU usage are measured **per pipeline step**.
 * Metrics are appended to timestamped files under `logs/efficiency/` when `ASSESS_EFFICIENCY=True` in `config.py`.
 
----
-
 ## 🧪 Testing & verification
 
-| Level       | What’s covered                                                            | How to run                      |
-| ----------- | ------------------------------------------------------------------------- | ------------------------------- |
-| Unit        | Ingestion adapters, `filtering.score()`, recency decay                    | `pytest tests/unit -q`          |
-| Integration | End‑to‑end pipeline with mock sources → `/retrieve`                       | `pytest tests/integration -q`   |
-| Performance | Latency / throughput logged via `log_utils` when `ASSESS_EFFICIENCY=True` | Inspect `logs/efficiency/*.log` |
+> **Goal** Guarantee that the pipeline is correct, reproducible, and fast enough for real‑time use.
 
-The CI workflow (`.github/workflows/ci.yml`) runs **pytest** on Python 3.10 & 3.11 and enforces code health with **Black + isort + Ruff**.
+| Test file                               | Kind                       | What it checks                                                                                                                                                                                                                   | Command                                           |
+| --------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| `tests/test_aggregation_pipeline.py`    | **Integration**            | • Root endpoint 200 OK.<br>• `/ingest` ACK & items land in memory.<br>• `/retrieve` orders by recency.<br>• Dedup prevents duplicate IDs.<br>• IngestionManager pulls new items from `MockSource` and `/retrieve` reflects them. | `pytest tests/test_aggregation_pipeline.py -q`    |
+| `tests/test_efficiency_logging.py`      | **Smoke / Performance**    | • Basic 200 responses for `/`, `/retrieve`, `/retrieve-all`.<br>• `/ingest` ACK round‑trip.<br>• Ensures endpoints stay alive when efficiency logging is on.                                                                     | `pytest tests/test_efficiency_logging.py -q`      |
+| `tests/test_hard_filtering_relevant.py` | **Unit / Offline metrics** | • Runs `zero_shot_it_relevance_filter` on a 20‑item custom dataset.<br>• Prints confusion matrix, precision, recall; asserts perfect P\&R at `MIN_SCORE=0.08`.                                                                   | `pytest tests/test_hard_filtering_relevant.py -q` |
+
+### Coverage & lint helpers
+
+```bash
+pytest --cov=newsfeed --cov-report=term-missing   # statement coverage
+pre-commit run --all-files                        # Black, isort, Ruff
+```
+
+A coverage badge can be added once the project is public:
+
+```md
+[![Coverage](https://img.shields.io/badge/coverage-90%25-brightgreen)](#)
+```
+
+CI (`.github/workflows/ci.yml`) executes **pytest** (+ coverage) on Python 3.10 & 3.11 and enforces style via **Black · isort · Ruff**.
+
+---
+
+## 📝 Logging
+
+| Log file folder    | What it captures                                                                                                                                                      | When enabled                                                     |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| `logs/items/`      | **Accepted & refused item IDs, titles, sources** plus a tag indicating whether the event happened during the initial startup ingestion or a background refresh cycle. | Always—written by `log_utils` whenever an item decision is made. |
+| `logs/efficiency/` | JSON lines with *timestamp, stage name, latency (s), throughput (items/s), CPU %, GPU %*                                                                              | Only when `ASSESS_EFFICIENCY=True` in `config.py`.               |
+
+These logs let you audit relevance decisions and spot performance regressions without rerunning the pipeline.
 
 ---
 
