@@ -79,10 +79,11 @@ curl http://127.0.0.1:8000/retrieve | python3 -m json.tool
 
 ```mermaid
 flowchart TD
-    src["Aggregation<br/>(Reddit Sysadmin, Reddit Outages, Reddit Cybersec, Ars‑Technica, Mock)"] --> mgr["Ingestion Manager"]
-    mgr --> hf["Hard Filter<br/>BART‑MNLI (zero‑shot)"]
-    hf --> rec["Recency Weighting<br/>exp(-Δt / PERSISTENCE_TIME)"]
-    rec --> mem["In‑memory Store<br/>(≤ MAX_ITEMS)"]
+    sel["Source Selection<br/>NEWS_SOURCES in config.py"] --> src["Aggregation<br/>(Reddit Sysadmin, Reddit Outages, Reddit Cybersec, Ars‑Technica, Mock)"]
+    src --> mgr["Ingestion Manager"]
+    mgr --> hf["Hard Filter<br/>BART-MNLI (zero-shot)"]
+    hf --> rec["Recency Weighting<br/>exp(-Δt / PERSISTENCE_TIME)"]
+    rec --> mem["In-memory Store<br/>(≤ MAX_ITEMS)"]
     subgraph Background
         timer["Background Task Manager<br/>runs every INTERVAL s"] --> mgr
     end
@@ -92,6 +93,7 @@ flowchart TD
 
 | Stage                       | What happens                                                                                                                                                                                                                                                                                                                                               | Key **config.py** knobs                             |
 | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| **Source selection** | Enable/disable data feeds by editing `NEWS_SOURCES` in `config.py`. Each entry chooses a `type` (e.g. `reddit`, `ars_technica`, `mock`) and any params (like `subreddit`). Comment out or remove a row to drop that source without changing code. | `NEWS_SOURCES` |
 | **Aggregation**             | Each source fetches `NUMBER_INITIAL_POST_PER_SOURCE` items and normalises them into `NewsItem` objects (`id`, `source`, `title`, `body`, `published_at`, …).                                                                                                                                                                                               | `NUMBER_INITIAL_POST_PER_SOURCE`, `INTERVAL`        |
 | **Ingestion manager**       | Deduplicates on `id`, stamps metadata, pushes batch to filter.                                                                                                                                                                                                                                                                                             | —                                                   |
 | **Hard filter**             | `facebook/bart‑large‑mnli` zero‑shot classifier checks *title + first 2 sentences* against a specialised label set (see below). Item is accepted if **any** label score ≥ `MIN_SCORE`. Rejected items are stored *only* when `ASSESS_CORRECTNESS_WITH_BIGGER_MODEL=True`.                                                                                  | `MIN_SCORE`, label list in `ingestion/filtering.py` |
@@ -184,6 +186,7 @@ These logs let you audit relevance decisions and spot performance regressions wi
 
 | Variable                               | Description                        | Default |
 | -------------------------------------- | ---------------------------------- | ------- |
+| `NEWS_SOURCES`                         | List of source configs to enable.  | see default list |
 | `MIN_SCORE`                            | Minimum relevance score to accept  | `0.08`  |
 | `MAX_ITEMS`                            | Max items kept in memory           | `100`   |
 | `INTERVAL`                             | Ingestion interval (s)             | `30`    |
