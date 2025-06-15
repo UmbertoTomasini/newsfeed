@@ -1,0 +1,20 @@
+2025-06-15 20:45:20,602 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] 1lc6tn4 | reddit/sysadmin | R740xd PERC Adapter causing trouble - need help accessing RAID
+2025-06-15 20:45:20,897 - INFO - [zero_shot_it_relevance_filter] [REFUSED] What’s your non sysadmin jobs at work? | max_score=0.04 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-15 20:45:21,149 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Telecore eSeries intercom system | max_score=0.01 | label=Security Incident (critical and urgent for a IT manager of a company)
+2025-06-15 20:45:21,652 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] 1lc3d1q | reddit/sysadmin | Is zentyal knowledge transferable to winserver?
+2025-06-15 20:45:21,906 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Sync sharepoint files to On premise server. | max_score=0.06 | label=Major Bug (critical and urgent for a IT manager of a company)
+2025-06-15 20:45:22,557 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] 1l9w3gd | reddit/outages | 12/06/2025 Cloudflare outage
+2025-06-15 20:45:22,785 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] 1l9vbg6 | reddit/outages | great internet outage of 6/12/25
+2025-06-15 20:45:23,027 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] 1l9tyrj | reddit/outages | Why is everything down
+2025-06-15 20:45:23,285 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Do you think mini dc ups are necessary for wifi networks? | max_score=0.01 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-15 20:45:23,535 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] 1l837nr | reddit/outages | Service outages after storm
+2025-06-15 20:45:24,114 - INFO - [zero_shot_it_relevance_filter] [REFUSED] What are the most usual positions in Cybersecurity by title? | max_score=0.07 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-15 20:45:24,338 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] 1lc4h3r | reddit/cybersecurity | Hosting images inside DNS records!
+2025-06-15 20:45:24,662 - INFO - [zero_shot_it_relevance_filter] [REFUSED] real breakdown of how teams are testing ai written code? | max_score=0.01 | label=Security Incident (critical and urgent for a IT manager of a company)
+2025-06-15 20:45:24,887 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] 1lc0yrt | reddit/cybersecurity | Richiesta info
+2025-06-15 20:45:25,123 - INFO - [zero_shot_it_relevance_filter] [REFUSED] The Evolution of Linux Binaries in Targeted Cloud Operations | max_score=0.03 | label=Vulnerability (critical and urgent for a IT manager of a company)
+2025-06-15 20:45:25,447 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Companies may soon pay a fee for their rockets to share the skies with airplanes | max_score=0.04 | label=Vulnerability (critical and urgent for a IT manager of a company)
+2025-06-15 20:45:25,701 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Biofuels policy has been a failure for the climate, new report claims | max_score=0.01 | label=Vulnerability (critical and urgent for a IT manager of a company)
+2025-06-15 20:45:25,942 - INFO - [zero_shot_it_relevance_filter] [REFUSED] The “online monkey torture video” arrests just keep coming | max_score=0.01 | label=Security Incident (critical and urgent for a IT manager of a company)
+2025-06-15 20:45:26,194 - INFO - [zero_shot_it_relevance_filter] [REFUSED] These VA Tech scientists are building a better fog harp | max_score=0.00 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-15 20:45:26,435 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Google can now generate a fake AI podcast of your search results | max_score=0.02 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)

@@ -19,7 +19,7 @@ NUMBER_INITIAL_POST_PER_SOURCE = 5
 PERSISTENCE_TIME = 86400
 
 # Boolean to enable correctness assessment with a larger model (e.g., Mixtral 8x7B)
-ASSESS_CORRECTNESS_WITH_BIGGER_MODEL = False
+ASSESS_CORRECTNESS_WITH_BIGGER_MODEL = True
 
 # Enable or disable efficiency assessment (latency/throughput measurement)
 ASSESS_EFFICIENCY = True
