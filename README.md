@@ -130,9 +130,9 @@ Rejected items are only persisted when `ASSESS_CORRECTNESS_WITH_BIGGER_MODEL=Tru
 
 ### Correctness
 
-Metrics: Precision, Recall and Confusion matrix to measure how many false positives and false/negatives.
+**Metrics**: Precision, Recall and Confusion matrix to measure how many false positives and false/negatives.
 
-1. **Offline metrics (custom dataset)** – a dataset with 20 examples was created and labelled with **OpenAI o3** stored in `newsfeed/tests/test_cases_relevant.json` .&#x20;
+1. **Offline metrics (custom dataset)** – a dataset with 20 examples was created and labelled (relevant/not relevant) with **OpenAI o3** stored in `newsfeed/tests/test_cases_relevant.json` .&#x20;
 
    With `MIN_SCORE = 0.08`, `facebook/bart‑large‑mnli` achieves **100 % precision and recall** on this set (see `tests/test_hard_filtering_relevant.py`).
 2. **Live evaluation (larger LLM)** – when `ASSESS_CORRECTNESS_WITH_BIGGER_MODEL=True`, the TUI calls `/retrieve-all` and re‑scores every item with `tiiuae/falcon‑7b‑instruct` (open‑source, ungated). Falcon‑7B still produces many false‑positives, worse than `facebook/bart‑large‑mnli` .
