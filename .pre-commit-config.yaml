@@ -1,0 +1,19 @@
+repos:
+  # 1) isort – sort imports, using Black’s style so Black won’t re-touch them
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v5.10.1          # stick with the version you had (or bump to v5.13.2)
+    hooks:
+      - id: isort
+        args: ["--profile", "black"]
+
+  # 2) Black – opinionated formatter, runs after isort
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black
+
+  # 3) Ruff – fast linter; order doesn’t matter as it doesn’t rewrite files
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.13
+    hooks:
+      - id: ruff

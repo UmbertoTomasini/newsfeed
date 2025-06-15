@@ -22,4 +22,4 @@ PERSISTENCE_TIME = 86400
 ASSESS_CORRECTNESS_WITH_BIGGER_MODEL = False
 
 # Enable or disable efficiency assessment (latency/throughput measurement)
-ASSESS_EFFICIENCY = True 
+ASSESS_EFFICIENCY = True

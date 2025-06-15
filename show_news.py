@@ -1,19 +1,28 @@
-import requests
-from rich.console import Console
-from rich.table import Table
-from rich import box
-from datetime import datetime
-from newsfeed.config import ASSESS_CORRECTNESS_WITH_BIGGER_MODEL, MIN_SCORE
-from newsfeed.ingestion.filtering import assess_with_bigger_model, evaluate_pipeline_vs_model, RELEVANT_LABEL_SUFFIX
-from rich.panel import Panel
-from rich.text import Text
-from rich.table import Table as RichTable
-from sklearn.metrics import f1_score
 import re
-from newsfeed.models import NewsItem
-import pdb
+from datetime import datetime
 
-API_URL = "http://127.0.0.1:8000/retrieve-all" if ASSESS_CORRECTNESS_WITH_BIGGER_MODEL else "http://127.0.0.1:8000/retrieve"
+import requests
+from rich import box
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
+from rich.table import Table as RichTable
+from rich.text import Text
+from sklearn.metrics import f1_score
+
+from newsfeed.config import ASSESS_CORRECTNESS_WITH_BIGGER_MODEL, MIN_SCORE
+from newsfeed.ingestion.filtering import (
+    RELEVANT_LABEL_SUFFIX,
+    assess_with_bigger_model,
+    evaluate_pipeline_vs_model,
+)
+from newsfeed.models import NewsItem
+
+API_URL = (
+    "http://127.0.0.1:8000/retrieve-all"
+    if ASSESS_CORRECTNESS_WITH_BIGGER_MODEL
+    else "http://127.0.0.1:8000/retrieve"
+)
 
 console = Console()
 
@@ -31,7 +40,9 @@ if not news_items:
 
 news_items = [NewsItem(**item) for item in news_items]
 
-table = Table(title="Filtered News (Ranked by Relevance x Recency)", box=box.SIMPLE_HEAVY)
+table = Table(
+    title="Filtered News (Ranked by Relevance x Recency)", box=box.SIMPLE_HEAVY
+)
 table.add_column("Title", style="bold", overflow="fold")
 table.add_column("Source", style="cyan")
 table.add_column("Published", style="magenta")
@@ -39,7 +50,6 @@ table.add_column("Relevance", style="green")
 table.add_column("Recency", style="yellow")
 table.add_column("Final Score", style="bold blue")
 table.add_column("Top Label", style="white")
-
 
 
 for item in news_items:
@@ -59,7 +69,11 @@ for item in news_items:
         f"{item.relevance_score:.2f}" if item.relevance_score is not None else "-",
         f"{item.recency_weight:.2f}" if item.recency_weight is not None else "-",
         f"{item.final_score:.2f}" if item.final_score is not None else "-",
-        item.top_relevant_label.replace(RELEVANT_LABEL_SUFFIX, "") if item.top_relevant_label else "-"
+        (
+            item.top_relevant_label.replace(RELEVANT_LABEL_SUFFIX, "")
+            if item.top_relevant_label
+            else "-"
+        ),
     )
 
 console.print(table)
@@ -71,15 +85,32 @@ if ASSESS_CORRECTNESS_WITH_BIGGER_MODEL:
     print("Assessment by larger model: falcon-7B-instruct")
     print("==============================\n")
     # Prepare NewsItem-like dicts for assessment
-    pipeline_labels = {item.id: ('RELEVANT' if (item.relevance_score is not None and item.relevance_score > MIN_SCORE) else 'NOT_RELEVANT') for item in news_items}
+    pipeline_labels = {
+        item.id: (
+            "RELEVANT"
+            if (item.relevance_score is not None and item.relevance_score > MIN_SCORE)
+            else "NOT_RELEVANT"
+        )
+        for item in news_items
+    }
     model_labels = assess_with_bigger_model(news_items)
     precision, recall, cm = evaluate_pipeline_vs_model(pipeline_labels, model_labels)
     # F1 score
-    y_true = [1 if model_labels.get(i) == 'RELEVANT' else 0 for i in pipeline_labels if i in model_labels]
-    y_pred = [1 if pipeline_labels.get(i) == 'RELEVANT' else 0 for i in pipeline_labels if i in model_labels]
+    y_true = [
+        1 if model_labels.get(i) == "RELEVANT" else 0
+        for i in pipeline_labels
+        if i in model_labels
+    ]
+    y_pred = [
+        1 if pipeline_labels.get(i) == "RELEVANT" else 0
+        for i in pipeline_labels
+        if i in model_labels
+    ]
     f1 = f1_score(y_true, y_pred) if y_true else 0.0
     # Output summary table
-    metrics_table = RichTable(title="Retrieval & Filtering Evaluation", box=box.SIMPLE_HEAVY)
+    metrics_table = RichTable(
+        title="Retrieval & Filtering Evaluation", box=box.SIMPLE_HEAVY
+    )
     metrics_table.add_column("Metric", style="bold")
     metrics_table.add_column("Value", style="green")
     metrics_table.add_row("Precision", f"{precision:.2f}")
@@ -95,19 +126,21 @@ if ASSESS_CORRECTNESS_WITH_BIGGER_MODEL:
         model_label = model_labels.get(id)
         pipeline_label = pipeline_labels.get(id)
         if model_label and pipeline_label:
-            if model_label == 'NOT_RELEVANT' and pipeline_label == 'RELEVANT':
+            if model_label == "NOT_RELEVANT" and pipeline_label == "RELEVANT":
                 false_positives.append(item)
-            elif model_label == 'RELEVANT' and pipeline_label == 'NOT_RELEVANT':
+            elif model_label == "RELEVANT" and pipeline_label == "NOT_RELEVANT":
                 false_negatives.append(item)
+
     # Output FP/FN tables
     def get_first_n_sentences(text, n=2):
         if not text:
             return ""
-        sentences = re.split(r'(?<=[.!?]) +', text)
-        return ' '.join(sentences[:n])
+        sentences = re.split(r"(?<=[.!?]) +", text)
+        return " ".join(sentences[:n])
+
     def print_fp_fn_table(items, title):
         if not items:
-            console.print(Panel(Text(f"None", style="yellow"), title=title))
+            console.print(Panel(Text("None", style="yellow"), title=title))
             return
         t = RichTable(title=title, box=box.SIMPLE_HEAVY)
         t.add_column("Title", style="bold")
@@ -115,5 +148,12 @@ if ASSESS_CORRECTNESS_WITH_BIGGER_MODEL:
         for item in items:
             t.add_row(item.title, get_first_n_sentences(item.body))
         console.print(t)
-    print_fp_fn_table(false_positives, "False Positives (Pipeline said RELEVANT, Model said NOT_RELEVANT)")
-    print_fp_fn_table(false_negatives, "False Negatives (Pipeline said NOT_RELEVANT, Model said RELEVANT)") 
+
+    print_fp_fn_table(
+        false_positives,
+        "False Positives (Pipeline said RELEVANT, Model said NOT_RELEVANT)",
+    )
+    print_fp_fn_table(
+        false_negatives,
+        "False Negatives (Pipeline said NOT_RELEVANT, Model said RELEVANT)",
+    )

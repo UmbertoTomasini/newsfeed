@@ -1,0 +1,51 @@
+2025-06-15 20:14:07,487 - INFO - [ingest_news] [ACCEPTED] ingest-test-1 | manual-ingest | Test Ingested Item 1
+2025-06-15 20:14:07,487 - INFO - [ingest_news] [ACCEPTED] ingest-test-2 | manual-ingest | Test Ingested Item 2
+2025-06-15 20:14:07,549 - INFO - [ingest_news] [ACCEPTED] retrieve-test-1 | test-source | Oldest
+2025-06-15 20:14:07,549 - INFO - [ingest_news] [ACCEPTED] retrieve-test-2 | test-source | Newest
+2025-06-15 20:14:07,549 - INFO - [ingest_news] [ACCEPTED] retrieve-test-3 | test-source | Middle
+2025-06-15 20:14:07,729 - INFO - [ingest_news] [ACCEPTED] dup-test-1 | test-source | Original
+2025-06-15 20:14:09,644 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] synth-5 | mock-api | Major Data Breach Discovered
+2025-06-15 20:14:09,883 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] synth-6 | mock-api | Performance Degradation in Web Services
+2025-06-15 20:14:10,248 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] synth-5 | mock-api | Major Data Breach Discovered
+2025-06-15 20:14:10,487 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] synth-6 | mock-api | Performance Degradation in Web Services
+2025-06-15 20:14:10,631 - INFO - [ingest_news] [ACCEPTED] test_id_1 | test_source | Test Title
+2025-06-15 20:14:10,957 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-001 | status.aws.amazon.com | EU-West-1 EC2 Outage – Instances Unreachable
+2025-06-15 20:14:11,213 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-002 | securityweek | Zero-day Exploit in OpenSSH Enables Root Access
+2025-06-15 20:14:11,467 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-003 | postgresql-announce | PostgreSQL 16.2 Data Corruption Bug Under Heavy Write Load
+2025-06-15 20:14:11,712 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-004 | azure-status | Azure AD Authentication Latency Spikes
+2025-06-15 20:14:11,960 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-005 | apple-security-updates | macOS 15.1 Emergency Patch Fixes Kernel Remote Code Execution
+2025-06-15 20:14:12,213 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-006 | company-intranet | Production File-Share Corrupted After Power Failure
+2025-06-15 20:14:12,466 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-007 | kubernetes-dev | K8s 1.32 Deprecates Dockershim and Removes Beta APIs
+2025-06-15 20:14:12,710 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-008 | cloudflare-status | Global 502 Errors When Accessing Workers KV
+2025-06-15 20:14:12,952 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-009 | oracle-critical-patch-update | Oracle Java CPU – 8 Critical CVEs Fixed
+2025-06-15 20:14:13,198 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-010 | status.gcp.google.com | BigQuery Job Failures in us-central1
+2025-06-15 20:14:13,445 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Just hit 10 Gbit on my new fiber—AMA! | max_score=0.00 | label=Vulnerability (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:13,682 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Startup raises $12 M to reinvent e-ink whiteboards | max_score=0.01 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:13,924 - INFO - [zero_shot_it_relevance_filter] [REFUSED] SpaceQuest IV Remaster Launches Next Week | max_score=0.00 | label=Vulnerability (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:14,165 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Why my smart fridge keeps singing at 3 AM | max_score=0.00 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:14,393 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Top 5 mechanical keyboards of 2025 | max_score=0.01 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:14,632 - INFO - [zero_shot_it_relevance_filter] [REFUSED] When you deploy on Friday and Jenkins says ‘Good luck’ 😅 | max_score=0.07 | label=Major Bug (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:14,875 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Why serverless will replace all servers (eventually) | max_score=0.00 | label=Performance Degradation (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:15,119 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Review: The new AeroPress Flow Control Filter Cap | max_score=0.00 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:15,361 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Frontend Dev Meetup – Basel, 25 June | max_score=0.00 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:15,602 - INFO - [zero_shot_it_relevance_filter] [REFUSED] My cat just walked across the keyboard and committed to prod 🐱‍💻 | max_score=0.02 | label=Vulnerability (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:15,874 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-001 | status.aws.amazon.com | EU-West-1 EC2 Outage – Instances Unreachable
+2025-06-15 20:14:16,130 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-002 | securityweek | Zero-day Exploit in OpenSSH Enables Root Access
+2025-06-15 20:14:16,385 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-003 | postgresql-announce | PostgreSQL 16.2 Data Corruption Bug Under Heavy Write Load
+2025-06-15 20:14:16,630 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-004 | azure-status | Azure AD Authentication Latency Spikes
+2025-06-15 20:14:16,877 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-005 | apple-security-updates | macOS 15.1 Emergency Patch Fixes Kernel Remote Code Execution
+2025-06-15 20:14:17,131 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-006 | company-intranet | Production File-Share Corrupted After Power Failure
+2025-06-15 20:14:17,384 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-007 | kubernetes-dev | K8s 1.32 Deprecates Dockershim and Removes Beta APIs
+2025-06-15 20:14:17,628 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-008 | cloudflare-status | Global 502 Errors When Accessing Workers KV
+2025-06-15 20:14:17,869 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-009 | oracle-critical-patch-update | Oracle Java CPU – 8 Critical CVEs Fixed
+2025-06-15 20:14:18,115 - INFO - [zero_shot_it_relevance_filter] [ACCEPTED] rel-010 | status.gcp.google.com | BigQuery Job Failures in us-central1
+2025-06-15 20:14:18,362 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Just hit 10 Gbit on my new fiber—AMA! | max_score=0.00 | label=Vulnerability (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:18,598 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Startup raises $12 M to reinvent e-ink whiteboards | max_score=0.01 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:18,840 - INFO - [zero_shot_it_relevance_filter] [REFUSED] SpaceQuest IV Remaster Launches Next Week | max_score=0.00 | label=Vulnerability (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:19,081 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Why my smart fridge keeps singing at 3 AM | max_score=0.00 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:19,309 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Top 5 mechanical keyboards of 2025 | max_score=0.01 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:19,548 - INFO - [zero_shot_it_relevance_filter] [REFUSED] When you deploy on Friday and Jenkins says ‘Good luck’ 😅 | max_score=0.07 | label=Major Bug (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:19,791 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Why serverless will replace all servers (eventually) | max_score=0.00 | label=Performance Degradation (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:20,034 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Review: The new AeroPress Flow Control Filter Cap | max_score=0.00 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:20,276 - INFO - [zero_shot_it_relevance_filter] [REFUSED] Frontend Dev Meetup – Basel, 25 June | max_score=0.00 | label=Malfunction/Issue (critical and urgent for a IT manager of a company)
+2025-06-15 20:14:20,518 - INFO - [zero_shot_it_relevance_filter] [REFUSED] My cat just walked across the keyboard and committed to prod 🐱‍💻 | max_score=0.02 | label=Vulnerability (critical and urgent for a IT manager of a company)

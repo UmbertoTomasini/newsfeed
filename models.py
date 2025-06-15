@@ -1,7 +1,9 @@
-# News item data model will be defined here. 
-from pydantic import BaseModel, ConfigDict
-from typing import Optional, ClassVar, Dict
+# News item data model will be defined here.
 from datetime import datetime
+from typing import ClassVar, Dict, Optional
+
+from pydantic import BaseModel, ConfigDict
+
 
 class NewsItem(BaseModel):
     id: str
@@ -14,11 +16,7 @@ class NewsItem(BaseModel):
     final_score: Optional[float] = None
     top_relevant_label: Optional[str] = None
 
-    model_config = ConfigDict(
-        json_encoders={
-            datetime: lambda dt: dt.isoformat()
-        }
-    )
+    model_config = ConfigDict(json_encoders={datetime: lambda dt: dt.isoformat()})
 
     model_json_schema_extra: ClassVar[Dict] = {
         "example": {
@@ -30,6 +28,6 @@ class NewsItem(BaseModel):
             "relevance_score": 0.95,
             "recency_weight": 0.85,
             "final_score": 0.81,
-            "top_relevant_label": "Outage (critical and urgent for a IT manager of a company)"
+            "top_relevant_label": "Outage (critical and urgent for a IT manager of a company)",
         }
-    } 
+    }
