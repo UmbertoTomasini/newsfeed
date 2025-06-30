@@ -229,6 +229,13 @@ See [`newsfeed/config.py`](newsfeed/config.py) for full commentary.
 - Track p95 latency and throughput in CI; fail builds when regressions exceed 20 %.
 - Swap Falcon‑7B-Instruct for a distilled model fine‑tuned on the curated dataset above, or a strong commercial model—expect higher precision/recall.
 
+### 6 Minor updates
+
+- Merge tests *test_mock_source_ingestion_via_manager* and *test_retrieve_updates_with_new_items*
+- Correct mock tests dates in *test_aggregation_pipeline.py*
+- Make MAX_LATENCY_SECONDS tunable in *config.py*
+
+
 ---
 
 ## 📄 License
