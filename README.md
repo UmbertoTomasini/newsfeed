@@ -206,8 +206,9 @@ See [`newsfeed/config.py`](newsfeed/config.py) for full commentary.
 ### 1 Aggregation
 
 - **Per‑source cadence** – allow `INTERVAL` and `NUMBER_INITIAL_POST_PER_SOURCE` to be overridden per source (e.g. high‑volume Reddit vs low‑volume Ars‑Technica).
-- **Persistent store** – write accepted items to SQLite so the feed survives restarts and can be queried historically.
-
+- **Persistent store** – write accepted items to SQLite so the feed survives restarts and can be queried historically. Add mutexes to avoid race conditions in deduplication.
+- **Idempotency-Key** - to make POST contracts idempotent.
+  
 ### 2 Filtering pipeline
 
 - **Richer label set** – add sub‑labels for hardware launches, cloud price changes, licence breaches, etc. to boost recall.
