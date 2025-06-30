@@ -231,9 +231,11 @@ See [`newsfeed/config.py`](newsfeed/config.py) for full commentary.
 
 ### 6 Minor updates
 
-- Merge tests *test_mock_source_ingestion_via_manager* and *test_retrieve_updates_with_new_items*
-- Correct mock tests dates in *test_aggregation_pipeline.py*
-- Make MAX_LATENCY_SECONDS tunable in *config.py*
+- Merge tests *test_mock_source_ingestion_via_manager* and *test_retrieve_updates_with_new_items*.
+- Correct mock tests dates in *test_aggregation_pipeline.py*.
+- Make MAX_LATENCY_SECONDS tunable in *config.py*.
+- Create abstract **Filter** class and add more filters. e.g. VectorSimilarityFilter.
+- Make core operations truly async: sources should fetch in parallel (I/O bound), for filtering should not change much (CPU-bound).
 
 
 ---
