@@ -37,8 +37,6 @@ uvicorn newsfeed.main:app --reload          # ➜ http://127.0.0.1:8000
 # Ctrl‑C to stop
 ```
 
-Open **[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)** for Swagger UI.
-
 ### 2 Terminal UI – read the feed
 
 ```bash
